@@ -1,0 +1,73 @@
+<?php $this->layout(
+  'system::layout/shablon',
+  [
+      'title'      => __('Login'),
+      'page_title' => __('Login'),
+  ]
+  ) ?>
+<div class="row">
+  <form method="post" class="col-5 bg-white bg-gradient p-5 border rounded">
+    <h4><?= __('Authorization') ?></h4>
+    <?php if (! empty($error)): ?>
+    <?= $this->fetch('system::app/alert', ['alert_type' => 'alert-danger', 'alert' => $error]) ?>
+    <?php endif ?>
+    <div class="form-floating mb-3">
+        <input type="text"
+        class="form-control"
+        maxlength="20"
+        name="n"
+        id="login"
+        required
+        value="<?= $this->e($user_login) ?>"
+        placeholder="<?= __('Username') ?>"
+        autofocus
+        >
+        <label for="login"><?= __('Username') ?></label>
+    </div>
+    <div class="form-floating mb-3">
+        <input
+        type="password"
+        class="form-control"
+        name="p"
+        maxlength="20"
+        id="password"
+        required
+        placeholder="<?= __('Password') ?>">
+        <label for="password"><?= __('Password') ?></label>
+    </div>
+    <input type="hidden" name="types" value="login">
+    <button type="submit" name="login" value="1" class="btn btn-fill btn-primary"><?= __('Login') ?></button>
+    <a href="/profile/skl.php?continue" class="btn btn-link"><?= __('Forgot password?') ?></a>
+  </form>
+<div class="col"></div>
+
+  <form method="post" class="col-5 bg-white bg-gradient p-5 border rounded">
+    <h4>A'zo bo'lish</h4>
+    <div class="form-floating mb-3">
+        <input type="text" maxlength="20" minlength="2" name="name" id="name" required="required" value="" placeholder="Ismingiz" class="form-control "> 
+        <label for="name">Tahallusingiz</label> 
+    </div>
+    <div class="form-floating mb-3">
+        <input type="password" maxlength="20" minlength="2" name="password" id="password" required="required" value="" placeholder="Parolingizni kiriting" class="form-control ">
+        <label for="password">Parolingizni kiriting</label> 
+</div>
+    <div class="form-floating mb-3">
+      <select id="gender" name="sex" class="form-control ">
+        <option value="?">- ? -</option>
+        <option value="m">Erkak</option>
+        <option value="zh">Ayol</option>
+      </select>
+      <label for="gender">Jinsni tanlang</label> 
+    </div>
+    <img alt="Tekshiruv ko'di" src="<?=$captcha?>"> 
+    <div class="form-floating mb-3">
+       <input type="text" maxlength="6" name="captcha" id="captcha" autocomplete="off" required="required" placeholder="Tekshiruv ko'di" class="form-control "> 
+      <label for="captcha">Tekshiruv ko'dini kiriting</label>
+      <div class="text-muted small">
+        Agar siz rasm kodini ko'rmasangiz, brauzeringizda grafikani yoqing va ushbu sahifani yangilang        
+      </div>
+    </div>
+    <input type="hidden" name="types" value="reg">
+    <input type="submit" name="submit" value="A'zo bo'lish" class="btn btn-primary">
+  </form>
+</div>

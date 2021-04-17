@@ -1,0 +1,157 @@
+<?php $this->layout('system::layout/shablon', [
+  'title'      => $title,
+  'page_title' => $title,
+  ]); 
+  ?>
+<div class="contentbar">
+  <div class="row">
+    <div class="col-12 col-md-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-12 col-sm-12 col-md-6">
+              <a href="../../edit/<?=$data->id?>/" class="btn btn-primary">
+              <i class="bi bi-pencil-square"></i>
+              <span>Tahrirlash</span>
+              </a>
+              <form method="POST" action="../../delete/" style="display: inline-block;" onsubmit="return confirm('Rostdan ham o\'chirmoqchimisiz?')">
+                <input type="hidden" name="table_id" value="<?=$data->id?>">
+                <button class="btn btn-danger" type="submit">
+                <i class="bi bi-trash-fill"></i> <span>O'chirish</span>
+                </button>
+              </form>
+              <a href="../../" class="btn btn-secondary">
+              <i class="bi bi-skip-backward-btn-fill"></i>
+              <span>Oraqaga</span>
+              </a>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-between">
+              <p class="fs-5 btn btn-info text-white" style="padding: auto; margin: auto;">Status:</p>
+              <select class="w-100 form-select" id="status" style=" margin-left: 10px; ">
+                <option >Iltimos statusni tanlang</option>
+                <option value="1">ДЕАКТИВ</option>
+                <option value="2">ПОДТВЕРЖДЕНА</option>
+                <option value="3">АКТИВНА</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered table-striped table-hover">
+            <tbody>
+              <tr>
+                <td >Status</td>
+                <td>
+                  <p <?=$status['alert']?> > <?=$status['status']?></p>
+                </td>
+              </tr>
+              <tr>
+                <td>Id raqami</td>
+                <td><?=$data->id?></td>
+              </tr>
+              <tr>
+                <td>Familiya Ismi Otasining ismi</td>
+                <td><?=$data->name?></td>
+              </tr>
+              <tr>
+                <td>Telefon raqami:</td>
+                <td><?=$data->phone?></td>
+              </tr>
+              <tr>
+                <td>Sharnoma summasi</td>
+                <td><?=$data->money?></td>
+              </tr>
+              <tr>
+                <td>Saldo</td>
+                <td><?=$data->saldo?></td>
+              </tr>
+              <tr>
+                <td>Qo`shilgan vaqti</td>
+                <td><?=$data->create_time?></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="successModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centerered">
+    <div id="commentForm" method="post">
+      <div class="modal-content" role="document">
+        <div class="modal-header">
+          <h3 class="modal-title" id="modalLabel">Statusni o`zgarishini saqlash</h3>
+          <button type="button" aria-label="Close" class="close" data-dismiss="modal" aria-hidden="true">
+          <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Rosdan ham statusni o`zgarishini saqlamoqchimisiz ?</p>
+        </div>
+        <div class="modal-footer">
+          <button id="saveComment" class="btn btn-success" type="button" data-save="false">Saqlash</button>
+          <button class="btn btn-danger" data-dismiss="modal" id="close" aria-hidden="true">Yopish</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $("#status").on("change", function() {
+  $("#successModal").modal("toggle");
+  });
+
+  $(".close").on("click", function() {
+    $("#successModal").modal("hide");
+  });
+  
+  $("#close").on("click", function() {
+    $("#successModal").modal("hide");
+  });
+
+ 
+  $("#saveComment").on("click", function() {
+  if ($("#saveComment").text() == 'Sahifani yangilash') {
+    window.location.reload();
+  }
+    // if ($("#saveComment").attr('data-save') == "false") {
+          $.ajax({
+              url: '<?=$config['homeurl']?>/api/status/',
+              type: "POST",
+              data: {
+                  status: $("#status").val(),
+                  table_id: '<?=$data->id?>',
+              },
+              dataType: 'json',
+              success: function(response) {
+                  if (response.success == true) {
+                      $("#successModal .modal-body").html(`
+                          <h2 class="text-success text-center" style="font-size: 50px;"><i class="feather icon-check-circle"></i></h2>
+                          <br>
+                          <p class="text-center">Ma'lumot muvaffaqiyatli saqlandi</p>
+                      `);
+                      console.log(response.message);
+                  } else {
+                      $("#successModal .modal-body").html(`
+                          <h2 class="text-danger text-center" style="font-size: 50px;"><i class="feather icon-minus-circle"></i></h2>
+                          <br>
+                          <p class="text-center">Ma'lumotlarni saqlashda muammo sodir bo'ldi. Qayta urinib ko'ring</p>
+                      `);
+                      console.log(response.message);
+  
+                  }
+              },
+              error: function(error) {
+                  alert(error.message);
+                  console.log(error);
+              }
+          });
+         $("#saveComment").attr('data-save', true);
+         $("#saveComment").text("Sahifani yangilash");
+         // window.location.reload();
+        // } else {
+        //     window.location.reload();
+        // }
+  });
+</script>

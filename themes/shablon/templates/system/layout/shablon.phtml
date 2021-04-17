@@ -1,0 +1,88 @@
+<?php
+  $counters = $container->get('counters');
+  $notifications = $counters->notifications();
+  $analytics = $counters->counters();
+  $ads = di(Johncms\Ads::class);
+  $ads_array = $ads->getAds();
+  ?>
+<!DOCTYPE html>
+<html lang="<?= $locale ?>" dir="<?= $locale === 'ar' ? 'rtl' : 'ltr' ?>">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="MobileOptimized" content="width">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta name="Generator" content="JohnCMS, https://johncms.com">
+    <?= $this->section('meta', '') ?>
+    <?php if (! empty($keywords)): ?>
+    <meta name="keywords" content="<?= $this->e($keywords) ?>">
+    <?php endif ?>
+    <?php if (! empty($description)): ?>
+    <meta name="description" content="<?= $this->e($description) ?>">
+    <?php endif ?>
+    <?php if (! empty($canonical)): ?>
+    <link rel="canonical" href="<?= $canonical ?>">
+    <?php endif ?>
+    <meta name="theme-color" content="#586776">
+    <link rel="stylesheet" href="<?= $this->asset('css/bootstrap.min.css', true) ?>">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+    <script src="<?= $this->asset('js/bootstrap.min.js', true) ?>"></script>
+    <script src="<?= $this->asset('js/jquery.js', true) ?>"></script>
+    <link rel="shortcut icon" href="<?= $this->asset('images/icon.png') ?>">
+    <?= $this->section('styles', '') ?>
+    <title><?= (isset($title) ? $this->e($title) : $config['copyright']) ?></title>
+  </head>
+  <body class="bg-light text-dark">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+      body{font-family: 'Roboto Slab', serif;}
+    </style>
+    <div class="container mt-5 mb-5">
+      <?= $this->section('content') ?>
+      <div class="modal fade ajax_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Code injected by live-server -->
+    <script type="text/javascript">
+      // <![CDATA[  <-- For SVG support
+      if ('WebSocket' in window) {
+        (function() {
+          function refreshCSS() {
+            var sheets = [].slice.call(document.getElementsByTagName("link"));
+            var head = document.getElementsByTagName("head")[0];
+            for (var i = 0; i < sheets.length; ++i) {
+              var elem = sheets[i];
+              var parent = elem.parentElement || head;
+              parent.removeChild(elem);
+              var rel = elem.rel;
+              if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+                var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+                elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+              }
+              parent.appendChild(elem);
+            }
+          }
+          var protocol = window.location.protocol === 'http:' ? 'ws://127.0.0.1:5500/ws' : 'ws://127.0.0.1:5500/ws';
+          var address = protocol + window.location.host + window.location.pathname + '/ws';
+          var socket = new WebSocket(address);
+          socket.onmessage = function(msg) {
+            if (msg.data == 'reload') window.location.reload();
+            else if (msg.data == 'refreshcss') refreshCSS();
+          };
+          if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+            console.log('Live reload enabled.');
+            sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+          }
+        })();
+      } else {
+        console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+      }
+      // ]]>
+    </script>
+  </body>
+</html>

@@ -1,0 +1,96 @@
+<?php $this->layout(
+  'system::layout/shablon',
+  [
+      'title'      => $title,
+  ]
+  );
+  ?>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+
+<style>
+
+table.display tbody tr:hover td {
+    background-color: #0d6efd !important;
+    color: #fff;
+}
+
+table.display tbody tr td:hover{ 
+  background:#267eff !important; 
+  }
+
+  .centered {
+    text-align: center; 
+  }
+</style>
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-between">
+  <h3>Рассрочки</h3>
+  <a href="./new/" class="btn btn-primary col-2 p-3"> <i class="bi bi-plus-square"></i>  Новая рассроска</a>
+</div>
+<hr>
+<div class="card card-body mt-5">
+  <table id="table_id" class="display">
+    <thead>
+      <tr style=" text-align: center; ">
+        <th>Id</th>
+        <th>Ф.И.О</th>
+        <th>Контактный номер тел.</th>
+        <th>Сумма договора</th>
+        <th>Сальдо</th>
+        <th>Статус</th>
+        <th>Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      <? foreach ($data as $item):?>
+      <tr>
+        <td class="centered"><?=$item['id']?></td>
+        <td><?=$item['fio']?></td>
+        <td><?=$item['phone']?></td>
+        <td class="centered"><?=$item['money']?></td>
+        <td class="centered"><?=$item['saldo']?></td>
+        <td class="centered">
+          <p <?=$item['alert']?>><?=$item['status']?></p>
+        </td>
+        <td>
+          <a href="./view/<?=$item['id']?>/" class="btn btn-info text-white">
+          <i class="bi bi-eye-fill"></i>
+          </a>
+          <a href="./edit/<?=$item['id']?>/" class="btn btn-primary">
+          <i class="bi bi-pencil-square"></i>
+          </a>
+          <form method="POST" action="./delete/" style="display: inline-block;" onsubmit="return confirm('Rostdan ham o\'chirmoqchimisiz?')">
+            <input type="hidden" name="table_id" value="<?=$item['id']?>">
+            <button class="btn btn-danger" type="submit">
+            <i class="bi bi-trash-fill"></i>
+            </button>
+          </form>
+        </td>
+      </tr>
+      <? endforeach;?>
+    </tbody>
+  </table>
+</div>
+<script script type="text/javascript">
+  $(document).ready( function () {
+    $('#table_id').DataTable({
+        'columnDefs': [
+          { 
+            "orderable": false, 
+            "targets": 6 }
+        ],
+    //   'aoColumns' : [
+    //   { sWidth: '1%' },
+    //   { sWidth: '35%' },
+    //   { sWidth: '20%' },
+    //   { sWidth: '16%' },
+    //   { sWidth: '16%' },
+    //   { sWidth: '1%' },
+    //   { sWidth: '1%' }
+    // ]
+      }
+      
+    );
+  } );
+</script>

@@ -1,0 +1,45 @@
+<?php $this->layout(
+  'system::layout/shablon',
+  [
+      'title'      => $title,
+  ]
+  );
+  ?>
+  <script src="<?= $this->asset('js/mask.js', true) ?>"></script>
+<?php if ($type == 'edit'): ?>
+  <h2><?=$data['name']?>ni tahrirlash</h2>
+  <?php elseif($type == 'new'): ?>
+  <h2>Yangi ma'lumot qo`shish</h2>
+  <?php endif; ?>
+  <hr>
+  <div class="card card-body">
+      <form action="?" method="post">
+
+          <div class="input-group mb-3">
+              <div class="form-floating col">
+                  <input type="text" id="fio" name="fio" class="form-control" value="<?=$data['name']?>" placeholder="Familiya Ismi Sharfi" required autofocus>
+                  <label for="fio">Familiya Ismi Sharfi</label>
+                </div>
+            </div>
+
+          <div class="input-group mb-3">
+              <div class="form-floating col">
+                  <input type="phone" id="phone" name="phone" class="form-control" value="<?=$data['phone']?>" placeholder="Telefon raqami" required autofocus>
+                  <label for="phone">Telefon raqami</label>
+                </div>
+            </div>
+
+          <div class="input-group mb-3">
+              <div class="form-floating col">
+                  <input type="text" id="money" name="money" class="form-control" value="<?=$data['money']?>" placeholder="Shartnoma summasi" required autofocus>
+                  <label for="money">Shartnoma summasi</label>
+                </div>
+            </div>
+
+            <button type="submit" id="save" class="btn btn-primary">Saqlash</button>
+        </form>
+        <script>
+        $("#phone").mask("+999 (99) 999-99-99");
+       // $('#money').mask('999 999 999 999 999,99', {reverse: true});
+      </script>
+  </div>

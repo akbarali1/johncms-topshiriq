@@ -1,0 +1,24 @@
+<?php $this->layout(
+    'system::layout/shablon',
+    [
+        'title'      => __('Registration'),
+        'page_title' => __('Registration'),
+    ]
+) ?>
+<h4><?= __("Sizning ro'yxatdan o'tish ma'lumotlaringiz") ?></h4>
+<p>
+    <?= __("Tabriklaymiz! Saytda muvaffaqiyatli ro'yxatdan o'tdingiz.") ?>
+</p>
+<p>
+    <?= __('ID') ?>: <b><?= $usid ?></b><br>
+    <?= __('Username') ?>: <b><?= $reg_nick ?></b><br>
+    <?= __('Parol') ?>: <b><?= $reg_pass ?></b>
+</p>
+<?php if (! empty($config['user_email_confirmation'])): ?>
+    <div class="alert alert-warning"><?= __('Now you just need to confirm your email address.<br> Please check your email and follow the instructions in it.') ?></div>
+<?php elseif ($config['mod_reg'] === 1): ?>
+    <div class="alert alert-warning"><?= __('Please, wait until a moderator approves your registration') ?></div>
+<?php else: ?>
+    <a href="/" class="btn btn-primary"><?= __('Saytga kirish') ?></a>
+<?php endif ?>
+
